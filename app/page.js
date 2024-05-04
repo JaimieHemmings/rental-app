@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export const metadata = {
   title: 'Dreckly Rentals | Homepage',
   description: 'Find rental properties available in Cornwall',
@@ -6,7 +8,8 @@ export const metadata = {
 const HomePage = () => {
   return (
     <div>
-      Homepage
+      <h1 className="text-3xl">Welcome</h1> 
+      <Link href="/properties">View Properties</Link>    
     </div>
   )
 }
