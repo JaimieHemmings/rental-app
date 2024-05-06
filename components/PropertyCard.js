@@ -38,11 +38,11 @@ const PropertyCard = ({ property }) => {
             <div className="flex justify-center gap-4 text-gray-500 mb-4">
                 <p>
                     <FaBed className="inline mr-2" /> { property.beds }
-                    <span className="md:hidden lg:inline"> Bed(s)</span>
+                    <span className="md:hidden lg:inline"> Bed&#40;s&#41;</span>
                 </p>
                 <p>
                     <FaBath className="inline mr-2" /> { property.baths }
-                    <span className="md:hidden lg:inline"> Bath(s)</span>
+                    <span className="md:hidden lg:inline"> Bath&#40;s&#41;</span>
                 </p>
                 <p>
                     <FaRulerCombined className="inline mr-2" />
