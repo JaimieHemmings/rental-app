@@ -3,29 +3,25 @@ const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null;
 // Get all properties
 async function fetchProperties() {
     try {
-        if (!apiDomain) {
-            return [];
-        }
+        if (!apiDomain) { return [] }
 
-        const res = await fetch(`${apiDomain}/properties`)
+        const res = await fetch(`${apiDomain}/properties`, { cache: 'no-store' })
 
         if (!res.ok) {
             throw new Error('Failed to fetch data')
         }
 
-        return res.json();
+        return res.json()
     } catch (error) {
-      console.log(error);
-      return [];
+      console.log(error)
+      return []
     }
 }
 
 //fetch Single Property
 async function fetchProperty(id) {
     try {
-        if (!apiDomain) {
-            return null;
-        }
+        if (!apiDomain) { return null }
 
         const res = await fetch(`${apiDomain}/properties/${id}`)
 

@@ -1,7 +1,9 @@
-import '@/assets/styles/global.css'
 import AuthProvider from '@/components/AuthProvider'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import { ToastContainer } from 'react-toastify'
+import '@/assets/styles/global.css'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const metadata = {
   title: 'Dreckly Rentals',
@@ -17,6 +19,7 @@ const MainLayout = ({ children }) => {
           <Navbar />
           <main>{children}</main>
           <Footer />
+          <ToastContainer />
         </body>
       </html>
     </AuthProvider>
