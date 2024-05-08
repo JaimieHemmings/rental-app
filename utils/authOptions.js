@@ -1,4 +1,4 @@
-import ConnectDB from '@/config/db'
+import connectDB from '@/config/db'
 import User from '@/models/User'
 
 import GoogleProvider from 'next-auth/providers/google'
@@ -7,7 +7,7 @@ export const authOptions = {
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
-            ClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             authorization: {
                 params: {
                     prompt: "consent",
@@ -20,7 +20,7 @@ export const authOptions = {
     callbacks: {
         //Invoked on successful sign in
         async signIn({ profile }) {
-            await ConnectDB()
+            await connectDB()
             const userExists = await User.findOne({ email: profile.email })
 
             if (!userExists) {

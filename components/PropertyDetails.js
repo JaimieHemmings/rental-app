@@ -66,7 +66,7 @@ const PropertyDetails = ({ property }) => {
 
         <div className="bg-white p-6 rounded-lg shadow-md mt-6">
             <h3 className="text-lg font-bold mb-6">Description & Details</h3>
-            <div className="flex justify-center gap-4 text-blue-500 mb-4 text-xl space-x-9">
+            <div className="flex justify-center gap-4 text-blue-500 mb-4 text-xl space-x-9 text-center">
                 <p><FaBed /> {property.beds} <span className="hidden sm:inline"> Bed&#40;s&#41;</span></p>
                 <p><FaBath /> {property.baths} <span className="hidden sm:inline"> Bath&#40;s&#41;</span></p>
                 <p><FaRulerCombined /> {property.square_feet} <span className="hidden sm:inline">sqft</span></p>

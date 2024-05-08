@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 let connected = false
 
-const ConnectDB = async () => {
+const connectDB = async () => {
     mongoose.set('strictQuery', true)
 
     if(connected) {
@@ -19,4 +19,4 @@ const ConnectDB = async () => {
     }
 }
 
-export default ConnectDB
+export default connectDB
