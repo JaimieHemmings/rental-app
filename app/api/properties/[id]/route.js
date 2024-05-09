@@ -1,6 +1,7 @@
 import ConnectDB from "@/config/db"
 import Property from '@/models/Property'
 import { getSessionUser } from "@/utils/getSessionUser"
+import cloudinary from "@/config/cloudinary"
 
 // GET /api/properties/:id
 export const GET = async (request, { params }) => {
