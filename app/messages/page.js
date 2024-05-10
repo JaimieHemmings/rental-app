@@ -1,22 +1,22 @@
-import MessageCard from '@/components/Message';
-import ConnectDB from '@/config/db';
-import Message from '@/models/Message';
-import '@/models/Property';
-import { convertToSerializeableObject } from '@/utils/convertToObject';
-import { getSessionUser } from '@/utils/getSessionUser';
+import MessageCard from '@/components/Message'
+import ConnectDB from '@/config/db'
+import Message from '@/models/Message'
+import '@/models/Property'
+import { convertToSerializeableObject } from '@/utils/convertToObject'
+import { getSessionUser } from '@/utils/getSessionUser'
 
 const MessagesPage = async () => {
-  await ConnectDB();
+  await ConnectDB()
 
-  const sessionUser = await getSessionUser();
+  const sessionUser = await getSessionUser()
 
-  const { userId } = sessionUser;
+  const { userId } = sessionUser
 
   const readMessages = await Message.find({ recipient: userId, read: true })
     .sort({ createdAt: -1 }) // Sort read messages in asc order
     .populate('sender', 'username')
     .populate('property', 'name')
-    .lean();
+    .lean()
 
   const unreadMessages = await Message.find({
     recipient: userId,
@@ -25,15 +25,15 @@ const MessagesPage = async () => {
     .sort({ createdAt: -1 }) // Sort read messages in asc order
     .populate('sender', 'username')
     .populate('property', 'name')
-    .lean();
+    .lean()
 
   // Convert to serializable object so we can pass to client component.
   const messages = [...unreadMessages, ...readMessages].map((messageDoc) => {
-    const message = convertToSerializeableObject(messageDoc);
-    message.sender = convertToSerializeableObject(messageDoc.sender);
-    message.property = convertToSerializeableObject(messageDoc.property);
-    return message;
-  });
+    const message = convertToSerializeableObject(messageDoc)
+    message.sender = convertToSerializeableObject(messageDoc.sender)
+    message.property = convertToSerializeableObject(messageDoc.property)
+    return message
+  })
 
   return (
     <section className='bg-blue-50'>
@@ -53,6 +53,6 @@ const MessagesPage = async () => {
         </div>
       </div>
     </section>
-  );
-};
-export default MessagesPage;
+  )
+}
+export default MessagesPage
