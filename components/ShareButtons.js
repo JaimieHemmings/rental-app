@@ -12,7 +12,7 @@ import {
 
 const ShareButtons = ({property, PUBLIC_DOMAIN}) => {
 
-  const shareUrl = `${process.env.PUBLIC_DOMAIN}/properties/${property._id}`
+  const shareUrl = `${PUBLIC_DOMAIN}/properties/${property._id}`
 
   return (
     <>

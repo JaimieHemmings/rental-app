@@ -1,4 +1,4 @@
-'use server';
+'use server'
 
 import ConnectDB from '@/config/db'
 import Message from '@/models/Message'

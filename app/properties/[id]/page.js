@@ -11,7 +11,7 @@ import Property from '@/models/Property';
 import { convertToSerializeableObject } from '@/utils/convertToObject';
 
 const PropertyPage = async ({ params }) => {
-  // here we can check if we are running in in production on vercel and get
+  // here we can check if we are running in production on vercel and get
   // the public URL at build time for the ShareButtons, or fall back to localhost in development.
   const PUBLIC_DOMAIN = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
