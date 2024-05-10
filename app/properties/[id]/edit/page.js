@@ -1,10 +1,10 @@
 import PropertyEditForm from '@/components/PropertyEditForm'
-import connectDB from '@/config/database'
+import ConnectDB from '@/config/db'
 import Property from '@/models/Property'
 import { convertToSerializeableObject } from '@/utils/convertToObject'
 
 const PropertyEditPage = async ({ params }) => {
-  await connectDB()
+  await ConnectDB()
 
   // query the property in the DB
   const propertyDoc = await Property.findById(params.id).lean()
