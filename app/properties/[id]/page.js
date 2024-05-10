@@ -1,80 +1,67 @@
-'use client';
-import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
-import Link from "next/link"
-import { fetchProperty } from '@/utils/requests';
-import { FaArrowLeft } from 'react-icons/fa'
+import Link from 'next/link';
 import PropertyHeaderImage from '@/components/PropertyHeaderImage';
-import PropertyDetails from '@/components/PropertyDetails'
+import PropertyDetails from '@/components/PropertyDetails';
 import PropertyImages from '@/components/PropertyImages';
-import Spinner from '@/components/spinner';
 import BookmarkButton from '@/components/BookmarkButton';
-import ShareButtons from '@/components/ShareButtons';
 import PropertyContactForm from '@/components/PropertyContactForm';
+import ShareButtons from '@/components/ShareButtons';
+import { FaArrowLeft } from 'react-icons/fa';
+import ConnectDB from '@/config/db';
+import Property from '@/models/Property';
+import { convertToSerializeableObject } from '@/utils/convertToObject';
 
-const PropertyPage = () => {
-  const { id } = useParams();
-  const [property, setProperty] = useState(null);
-  const [loading, setLoading] = useState(true);
+const PropertyPage = async ({ params }) => {
+  // here we can check if we are running in in production on vercel and get
+  // the public URL at build time for the ShareButtons, or fall back to localhost in development.
+  const PUBLIC_DOMAIN = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000';
 
-  useEffect(() => {
-    const fetchPropertyData = async () => {
-      if(!id) return;
-      try {
-        const property = await fetchProperty(id);
-        setProperty(property);
-      } catch (error) {
-        console.error('Error Fetching Property:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    if (property === null) {
-      fetchPropertyData();
-    }
-  }, [id, property]);
+  await ConnectDB();
 
-  if (!property && !loading) {
+  // query the property in the DB
+  const propertyDoc = await Property.findById(params.id).lean();
+
+  // convert the document to a plain js object so we can pass to client
+  // components
+  const property = convertToSerializeableObject(propertyDoc);
+
+  if (!property) {
     return (
-      <h1 className="text-center text-2xl font-bold mt-10">Property Not Found</h1>
-    )
+      <h1 className='text-center text-2xl font-bold mt-10'>
+        Property Not Found
+      </h1>
+    );
   }
 
   return (
     <>
-      {loading && <Spinner loading={loading} />}
-      {!loading && property && (
-        <>
-          <PropertyHeaderImage image={property.images[0]} />
+      <PropertyHeaderImage image={property.images[0]} />
+      <section>
+        <div className='container m-auto py-6 px-6'>
+          <Link
+            href='/properties'
+            className='text-blue-500 hover:text-blue-600 flex items-center'
+          >
+            <FaArrowLeft className='mr-2' /> Back to Properties
+          </Link>
+        </div>
+      </section>
 
-          <section>
-            <div className="container m-auto py-6 px-6">
-              <Link
-                href="/properties"
-                className="text-blue-500 hover:text-blue-600 flex items-center"
-              >
-                <FaArrowLeft className="mr-2 mt-1"/> Back to Properties
-              </Link>
-            </div>
-          </section>
-
-          <section className="bg-blue-50">
-            <div className="container m-auto py-10 px-6">
-              <div className="grid grid-cols-1 md:grid-cols-70/30 w-full gap-6">
-                <PropertyDetails property={property} />
-                <aside className="space-y-4">
-                  <BookmarkButton property={property} />     
-                  <ShareButtons property={property} />
-                  <PropertyContactForm property={property} />
-                </aside>
-              </div>
-            </div>
-          </section>
-          <PropertyImages images={property.images} />
-        </>
-      )}
-    </> 
-  )
-}
-
-export default PropertyPage
+      <section className='bg-blue-50'>
+        <div className='container m-auto py-10 px-6'>
+          <div className='grid grid-cols-1 md:grid-cols-70/30 w-full gap-6'>
+            <PropertyDetails property={property} />
+            <aside className='space-y-4'>
+              <BookmarkButton property={property} />
+              <ShareButtons property={property} PUBLIC_DOMAIN={PUBLIC_DOMAIN} />
+              <PropertyContactForm property={property} />
+            </aside>
+          </div>
+        </div>
+      </section>
+      <PropertyImages images={property.images} />
+    </>
+  );
+};
+export default PropertyPage;

@@ -1,5 +1,6 @@
-import Image from 'next/image';
-import { Gallery, Item } from 'react-photoswipe-gallery';
+'use client'
+import Image from 'next/image'
+import { Gallery, Item } from 'react-photoswipe-gallery'
 
 const PropertyImages = ({ images }) => {
   return (
@@ -68,4 +69,4 @@ const PropertyImages = ({ images }) => {
     </Gallery>
   );
 };
-export default PropertyImages;
+export default PropertyImages
